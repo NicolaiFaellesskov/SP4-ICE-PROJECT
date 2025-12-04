@@ -1,0 +1,24 @@
+@startuml
+
+class Start
+
+class Option{
+
+
+}
+
+class Login
+
+class ReadFromSQL{
+makeUser(String name, String Email, String password);
+}
+Start --> Option
+Option --> Login
+
+
+
+
+
+
+
+@enduml
