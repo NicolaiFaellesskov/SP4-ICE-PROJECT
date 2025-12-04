@@ -11,7 +11,7 @@ public class SQL_IO {
         this.url = url;
     }
 
-    public void makeUser(String name, String email,String password) {
+    public void readUser() {
         try (Connection conn = DriverManager.getConnection(url)) {
 
             String sql = "SELECT id, username, email, password FROM users";
@@ -22,9 +22,9 @@ public class SQL_IO {
 
             while (result.next()) {
                 int id = result.getInt("id");
-                name = result.getString("username");
-                email = result.getString("email");
-                password = result.getString("password");
+                String name = result.getString("username");
+                String email = result.getString("email");
+                String password = result.getString("password");
 
                 users.add(new User(id, name, email,password));
             }
@@ -36,6 +36,9 @@ public class SQL_IO {
 
         // Print Java objects
         users.forEach(System.out::println);
+    }
+    public void makeUser(String name, String email,String password){
+
     }
 }
 

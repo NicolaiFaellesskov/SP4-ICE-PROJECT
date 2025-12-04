@@ -1,19 +1,67 @@
 @startuml
 
-class Start
+class main
 
 class Option{
-
+loginMenu()
+gameMenu()
 
 }
 
-class Login
+class Login{
 
-class ReadFromSQL{
-makeUser(String name, String Email, String password);
+Login(String name, String password)
+makeUser(String name, String password)
+
 }
-Start --> Option
-Option --> Login
+
+class SQLIO{
+makeUserSQL(String name, String Email, String password)
+
+getUserSQL()
+
+getCards()
+
+
+}
+class User{
+-String name
+-String email
+-String password
+-double saldo
++getName()
++setName()
+}
+abstract class Game{
+#gameTitle
++Game(String gameTitle)
++getGameTitle()
+
++ abstract Result play(double betAmount);
+
+}
+
+class BlackJack extends Game{
+-List<Card> cards
+
+
+}
+class Roulette extends Game
+
+
+main ..> Option
+Option ..> Login
+Login ..> Option
+Option ..> Game
+Login --> User
+SQLIO --> User
+
+BlackJack --|> Game
+Roulette --|> Game
+
+
+
+
 
 
 
