@@ -8,17 +8,11 @@ gameMenu()
 
 }
 
-class Login{
-
-Login(String name, String password)
-makeUser(String name, String password)
-
-}
 
 class SQLIO{
 makeUserSQL(String name, String Email, String password)
 
-getUserSQL()
+login()
 
 getCards()
 
@@ -50,14 +44,10 @@ class Roulette extends Game
 
 
 main ..> Option
-Option ..> Login
-Login ..> Option
-Option ..> Game
-Login --> User
-SQLIO --> User
+Option ..> SQLIO
 
-BlackJack --|> Game
-Roulette --|> Game
+Option ..> Game
+SQLIO --> User
 
 
 

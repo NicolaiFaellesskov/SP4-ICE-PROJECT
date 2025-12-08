@@ -1,7 +1,12 @@
 public class main {
     public static void main(String[] args) {
         Option option = new Option();
-        option.startMenu();
+        try {
+            option.startMenu();
+
+        } catch (Exception e) {
+            System.out.print("noget gik galt" + e.getMessage());
+        }
 
 
     }
