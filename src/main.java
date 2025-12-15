@@ -8,13 +8,5 @@ public class main {
             System.out.print("noget gik galt" + e.getMessage());
 
         }
-
-        try {
-            option.gameMenu();
-        } catch (Exception e) {
-            System.out.print("noget gik galt" + e.getMessage());
-        }
-
-
     }
 }

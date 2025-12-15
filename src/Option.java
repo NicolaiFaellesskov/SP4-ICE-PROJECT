@@ -2,8 +2,8 @@ import java.util.Scanner;
 
 public class Option {
     Udbetaling ub = new Udbetaling();
-    Indbetaling ib = new Indbetaling();
     Scanner scanner = new Scanner(System.in);
+    private Indbetaling ib;
     private User loggedInUser;
     public DatabaseIO sql = new DatabaseIO("jdbc:sqlite:userData.sqlite");
 
@@ -33,9 +33,13 @@ public class Option {
 
                     try {
                         loggedInUser = sql.login(brugernavn, password);
+                        Indbetaling ib = new Indbetaling(loggedInUser, sql);
                         UI.msg("Du er logget ind som: " + loggedInUser.getUsername());
-
                         running = false;
+                        gameMenu();
+
+
+
                     } catch (Exception e) {
                         UI.msg("Noget gik galt med login");
                     }

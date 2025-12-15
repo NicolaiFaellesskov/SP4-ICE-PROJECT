@@ -23,12 +23,13 @@ public class DatabaseIO {
             ResultSet result = statement.executeQuery();
 
             if (result.next()) {
-                int uId = result.getInt("id");
-                String uName = result.getString("username");
-                String uEmail = result.getString("email");
-                String uPassword = result.getString("password");
-
-                return new User(uId, uName, uEmail, uPassword);
+                return new User(
+                        result.getInt("id"),
+                        result.getString("username"),
+                        result.getString("email"),
+                        result.getString("password"),
+                        result.getInt("saldo")
+                );
             } else {
                 throw new Exception("Wrong username or password");
             }
