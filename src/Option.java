@@ -5,11 +5,12 @@ public class Option {
     Indbetaling ib = new Indbetaling();
     Scanner scanner = new Scanner(System.in);
     private User loggedInUser;
+    public DatabaseIO sql = new DatabaseIO("jdbc:sqlite:userData.sqlite");
 
 
     public void startMenu() throws Exception {
 
-        DatabaseIO sql = new DatabaseIO("jdbc:sqlite:userData.sqlite");
+
         boolean running = true;
 
         while (running) {
@@ -88,15 +89,27 @@ public class Option {
             switch (cNumber) {
                 case ('1'): {
                     System.out.println("Du har valgt Blackjack!");
+                    BlackJack blackjack = new BlackJack();
+                    blackjack.play();
+
+
+                    break;
                 }
                 case ('2'): {
                     System.out.println("Du har valgt Roulette!");
+                    break;
                 }
                 case ('3'): {
-                    ib.indbetaling();
+                    if (ib != null) {
+                        ib.indbetaling();
+                    } else {
+                        UI.msg("Du skal være logget ind først!");
+                    }
+                    break;
                 }
                 case ('4'): {
                     ub.udbetaling();
+                    break;
                 }
                 case ('5'): {
                     UI.msg("Afsluttet!");

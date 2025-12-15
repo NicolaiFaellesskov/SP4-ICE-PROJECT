@@ -6,6 +6,7 @@ public class main {
 
         } catch (Exception e) {
             System.out.print("noget gik galt" + e.getMessage());
+
         }
 
         try {

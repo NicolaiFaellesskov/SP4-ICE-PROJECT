@@ -1,5 +1,7 @@
 public class UI {
-    public static String msg(String msg){
-        return (msg);
+    private static Scanner scanner = new Scanner(System.in);
+
+    public static void msg(String msg){
+        System.out.println(msg);
     }
 }
