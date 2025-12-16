@@ -2,6 +2,8 @@ import java.util.Scanner;
 
 public class Option {
     Udbetaling ub = new Udbetaling();
+    BlackJack bJ = new BlackJack(); //BlackJack bruger Option class til at give brugeren en Option.
+
     Scanner scanner = new Scanner(System.in);
     private Indbetaling ib;
     private User loggedInUser;
@@ -37,7 +39,6 @@ public class Option {
                         UI.msg("Du er logget ind som: " + loggedInUser.getUsername());
                         running = false;
                         gameMenu();
-
 
 
                     } catch (Exception e) {
@@ -80,7 +81,7 @@ public class Option {
 
     public void gameMenu() throws Exception {
         boolean running = true;
-        while (running){
+        while (running) {
             System.out.println("::::::::::: Vælg et spil :::::::::::");
             System.out.println("1) Blackjack");
             System.out.println("2) Roulette");
@@ -124,6 +125,47 @@ public class Option {
                 }
             }
         }
+    }
+
+    public Cards blackJackOption() throws Exception {
+
+        while (true) {
+            System.out.println("::::::::::: Vil du hit, stand or split? :::::::::::");
+            System.out.println("1) Hit");
+            System.out.println("2) Stand");
+            System.out.println("3) Split");
+            char inputNumber = scanner.next().charAt(0);
+            switch (inputNumber) {
+                case ('1'): {
+                    try {
+                        return bJ.getNewCard();
+                    } catch (Exception e) {
+                        throw new Exception("Der opstod en fejl med throw" + e.getMessage());
+                    }
+                }
+
+                case ('2'): {
+
+
+                    UI.msg("Du stod");
+                    return null;
+
+
+                }
+                case ('3'): {
+
+                    throw new Exception("JUST WAIT, SPLIT NOT DONE");
+
+                }
+                default:
+                    System.out.println("Ugyldigt valg, prøv igen."); // informer bruger
+
+
+            }
+
+
+        }
+
     }
 }
 
