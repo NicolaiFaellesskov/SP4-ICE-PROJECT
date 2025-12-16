@@ -114,6 +114,18 @@ public class DatabaseIO {
         }
     }
 
+    public void removeSaldo(int userId, int amount) throws Exception {
+        String sql = "UPDATE users SET saldo = saldo - ? WHERE id = ?";
+
+        try (Connection conn = DriverManager.getConnection(url);
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, amount);
+            stmt.setInt(2, userId);
+            stmt.executeUpdate();
+        }
+    }
+
 
 }
 

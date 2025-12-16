@@ -3,34 +3,65 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Roulette {
-    ArrayList<Integer> rouletteNumbers = new ArrayList<>();
-    Random rand = new Random();
-    Scanner scanner = new Scanner(System.in);
-    public void RouletteNumbers (){
 
-        int i = 0;
+    private User user;
+    private DatabaseIO db;
+    private Random rand = new Random();
 
-        while (i < 37){
-            rouletteNumbers.add(i);
-            i++;
-        }
+    public Roulette(User user, DatabaseIO db) {
+        this.user = user;
+        this.db = db;
     }
 
-    public void rouletteGame() {
-        RouletteNumbers();
+    public void play() throws Exception{
 
-        System.out.println("Sæt dit bet (0-36):");
-        int bet = scanner.nextInt();
+        System.out.println("Din saldo er: " + user.getSaldo());
 
-        int winningNumber = rouletteNumbers.get(rand.nextInt(37));
-
-        System.out.println("Roulette nummeret er: " + winningNumber);
-
-        if (bet == winningNumber) {
-            System.out.println("Tilykke du vandt!");
-        } else {
-            System.out.println("Du tabte!");
+        int totalBet = UI.askInt("Indtast dit samlet spille beløb");
+        if(totalBet <= 0 || totalBet > user.getSaldo()) {
+            System.out.println("Ugyldigt Beløb");
+            return;
         }
+
+       int amountOfNumbers = UI.askInt("Hvor mange tal vil du bette på?");
+        if(amountOfNumbers <= 0 || amountOfNumbers > 36) {
+            System.out.println("Ugyldigt antal");
+        }
+
+        ArrayList<Integer> chosenNumbers = new ArrayList<>();
+
+        for (int i = 0; i < amountOfNumbers; i++) {
+            int number = UI.askInt("Indtast tal " + (i + 1) + "(0-36)");
+            if(number < 0 || number > 36 || chosenNumbers.contains(number)) {
+                System.out.println("Ugyldig eller allerede valgt tal");
+                i--;
+            } else {
+                chosenNumbers.add(number);
+            }
+        }
+
+        int betPerNumber = totalBet / chosenNumbers.size();
+
+        if (betPerNumber == 0){
+            System.out.println("Bet beløbet for lavt");
+        }
+
+        db.removeSaldo(user.getId(),totalBet);
+        user.setSaldo(user.getSaldo() - totalBet);
+
+        int winningNumber = rand.nextInt(37);
+        System.out.println("Roulette nummer: " + winningNumber);
+
+        if (chosenNumbers.contains(winningNumber)) {
+            int winAmount = betPerNumber * 35;
+            db.addSaldo(user.getId(),winAmount);
+            user.setSaldo(user.getSaldo() + winAmount);
+
+            System.out.println("Du vandt: " + winAmount);
+        } else {
+            System.out.println("errrrr aw dang it, errrrr aw dang it. (du tabte)");
+        }
+        System.out.println("Ny saldo: " + user.getSaldo());
     }
 }
 
