@@ -1,11 +1,11 @@
 import java.util.Scanner;
 
 public class Option {
-    Udbetaling ub = new Udbetaling();
     BlackJack bJ = new BlackJack(); //BlackJack bruger Option class til at give brugeren en Option.
     Roulette roulette;
 
     Scanner scanner = new Scanner(System.in);
+    private Udbetaling ub;
     private Indbetaling ib;
     private User loggedInUser;
     public DatabaseIO sql = new DatabaseIO("jdbc:sqlite:userData.sqlite");
@@ -116,13 +116,18 @@ public class Option {
                     break;
                 }
                 case ('4'): {
-                    ub.udbetaling();
+                    if (ub != null) {
+                        ub.udbetaling();
+                    } else {
+                        UI.msg("Du skal være logget ind først!");
+                    }
                     break;
                 }
                 case ('5'): {
                     UI.msg("Afsluttet!");
                     running = false;
                 }
+                break;
                 default: {
                     UI.msg("Ugyldigt valg!");
                 }
