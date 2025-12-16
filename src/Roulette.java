@@ -17,13 +17,13 @@ public class Roulette {
 
         System.out.println("Din saldo er: " + user.getSaldo());
 
-        int totalBet = UI.askInt("Indtast dit samlet spille beløb");
+        int totalBet = UI.askInt("Indtast dit samlet spille beløb"); // Så spilleren ikke spiller med for mange penge men har sat en fast beløb!
         if(totalBet <= 0 || totalBet > user.getSaldo()) {
             System.out.println("Ugyldigt Beløb");
             return;
         }
 
-       int amountOfNumbers = UI.askInt("Hvor mange tal vil du bette på?");
+       int amountOfNumbers = UI.askInt("Hvor mange tal vil du bette på?"); // Hvor mange tal man vil bette på, altså en større chance for at vinde men med større odds for at tabe
         if(amountOfNumbers <= 0 || amountOfNumbers > 36) {
             System.out.println("Ugyldigt antal");
         }
