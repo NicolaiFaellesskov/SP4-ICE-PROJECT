@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 public class Option {
-    BlackJack bJ = new BlackJack(); //BlackJack bruger Option class til at give brugeren en Option.
+    BlackJack bj; //BlackJack bruger Option class til at give brugeren en Option.
     Roulette roulette;
 
     Scanner scanner = new Scanner(System.in);
@@ -36,8 +36,9 @@ public class Option {
 
                     try {
                         loggedInUser = sql.login(brugernavn, password);
-                        Indbetaling ib = new Indbetaling(loggedInUser, sql);
+                        ib = new Indbetaling(loggedInUser, sql);
                         roulette = new Roulette(loggedInUser, sql);
+                        ub = new Udbetaling(loggedInUser, sql);
                         UI.msg("Du er logget ind som: " + loggedInUser.getUsername());
                         running = false;
                         gameMenu();
@@ -96,10 +97,7 @@ public class Option {
             switch (cNumber) {
                 case ('1'): {
                     System.out.println("Du har valgt Blackjack!");
-                    BlackJack blackjack = new BlackJack();
-                    blackjack.play();
-
-
+                    bj.play();
                     break;
                 }
                 case ('2'): {
@@ -146,7 +144,7 @@ public class Option {
             switch (inputNumber) {
                 case ('1'): {
                     try {
-                        return bJ.getNewCard();
+                        return bj.getNewCard();
                     } catch (Exception e) {
                         throw new Exception("Der opstod en fejl med throw" + e.getMessage());
                     }
