@@ -26,7 +26,7 @@ public class BlackJack {
         UI.msg("Din saldo er: " + user.getSaldo());
         this.deck = db.cardReader();
 
-        int totalBet = UI.askInt("Indtast dit samlet spille beløb");
+        int totalBet = UI.askInt("Indtast hvad du vil bette");
         if (totalBet <= 0 || totalBet > user.getSaldo()) {
             System.out.println("Ugyldigt Beløb");
             return;
