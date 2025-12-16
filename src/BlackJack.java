@@ -12,22 +12,22 @@ public class BlackJack {
 
     private int dealerCardNumber;
     private int playerCardNumber;
-    DatabaseIO databaseIO = new DatabaseIO("jdbc:sqlite:userData.sqlite");
+
 
     private List<Cards> deck;
 
     public BlackJack(User user, DatabaseIO db) {
         this.user = user;
-        this.databaseIO = db;
+        this.db = db;
 
     }
 
     public void play() throws Exception {
         UI.msg("Din saldo er: " + user.getSaldo());
-        this.deck = databaseIO.cardReader();
+        this.deck = db.cardReader();
 
         int totalBet = UI.askInt("Indtast dit samlet spille beløb");
-        if(totalBet <= 0 || totalBet > user.getSaldo()) {
+        if (totalBet <= 0 || totalBet > user.getSaldo()) {
             System.out.println("Ugyldigt Beløb");
             return;
         }
@@ -56,7 +56,6 @@ public class BlackJack {
             this.dealerCardNumber += dealerCard2.getCardNumber();
 
 
-
             UI.msg("Dealeren har: " + dealerCard1 + "   ||  KORT ER IKKE VENDT ENDNU");
             UI.msg("_________________________________________________________");
 
@@ -65,11 +64,16 @@ public class BlackJack {
 
             while (playerCardNumber < 21) {
                 Cards hitCard = blackJackOption();
-                playerCards.add(hitCard);
+                if (hitCard != null) {
+                    playerCards.add(hitCard);
 
-                this.playerCardNumber += hitCard.getCardNumber();
+                    this.playerCardNumber += hitCard.getCardNumber();
 
-                UI.msg("Du har i alt: " + playerCardNumber);
+
+                    UI.msg("Du har i alt: " + playerCardNumber);
+                } else {
+                    break;
+                }
             }
             UI.msg("Dine kort efter turen: " + playerCards);
             UI.msg("Din samlede sum er: " + playerCardNumber);
@@ -100,14 +104,21 @@ public class BlackJack {
                 UI.msg("Dealer vandt, du tabte.");
                 playerLost = true;
             }
-            if (playerLost){
-                db.removeSaldo(user.getId(),totalBet);
-            }else db.addSaldo(user.getId(),totalBet);
+            if (dealerCardNumber > 21 && playerCardNumber < 21) {
+                UI.msg("Dealer BUSTER, du vinder");
+            }
+            if (playerLost) {
+                db.removeSaldo(user.getId(), totalBet);
+                user.setSaldo(user.getSaldo() - totalBet);
+            } else {
+                db.addSaldo(user.getId(), totalBet);
+                user.setSaldo(user.getSaldo() + totalBet);
+            }
             UI.msg("Du har nu: " + user.getSaldo());
         }
         //throw new
 
-               // Exception("There is no cards on deck!");
+        // Exception("There is no cards on deck!");
     }
 
 
@@ -158,9 +169,7 @@ public class BlackJack {
                 default:
                     System.out.println("Ugyldigt valg, prøv igen."); // informer bruger
 
-
             }
-
 
         }
     }

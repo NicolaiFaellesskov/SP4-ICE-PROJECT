@@ -34,9 +34,9 @@ public class Option {
                     System.out.println("Skriv din kode: ");
                     String password = scanner.next();
 
-                    try {
+                    /*try {*/
                         loggedInUser = sql.login(brugernavn, password);
-                        Indbetaling ib = new Indbetaling(loggedInUser, sql);
+                        ib = new Indbetaling(loggedInUser, sql);
                         roulette = new Roulette(loggedInUser, sql);
                         bJ = new BlackJack(loggedInUser,sql);
                         UI.msg("Du er logget ind som: " + loggedInUser.getUsername());
@@ -44,9 +44,9 @@ public class Option {
                         gameMenu();
 
 
-                    } catch (Exception e) {
+                    /*} catch (Exception e) {
                         UI.msg("Noget gik galt med login");
-                    }
+                    }*/
                     break;
                 }
 
